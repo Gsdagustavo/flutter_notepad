@@ -1,27 +1,19 @@
 import 'package:flutter/cupertino.dart';
 
 class Note {
-  String _name = '';
-  String _description = '';
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
-  late final TextEditingController _nameController;
-  late final TextEditingController _descriptionController;
-
-  Note(this._name, this._description);
-
-  String get name => _name;
-
-  String get description => _description;
+  Note({required String name, required String description}) {
+    _nameController.text = name;
+    _descriptionController.text = description;
+  }
 
   TextEditingController get nameController => _nameController;
 
   TextEditingController get descriptionController => _descriptionController;
 
-  void changeDescription() {
-    _description = _descriptionController.text;
-  }
+  String get name => nameController.text;
 
-  void changeName() {
-    _name = _nameController.text;
-  }
+  String get description => descriptionController.text;
 }

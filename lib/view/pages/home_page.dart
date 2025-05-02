@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/view/pages/note_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/note.dart';
@@ -90,6 +91,12 @@ class NoteTile extends StatelessWidget {
           color: Colors.grey,
         ),
       ),
+
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NotePage(note: note)),
+          ),
     );
   }
 }

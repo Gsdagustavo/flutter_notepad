@@ -7,6 +7,7 @@ class Assets {
   static const String libMain = 'lib/main.dart';
   static const String modelNote = 'lib/model/note.dart';
   static const String pagesHomePage = 'lib/view/pages/home_page.dart';
+  static const String pagesNotePage = 'lib/view/pages/note_page.dart';
   static const String statesNoteState = 'lib/model/states/note_state.dart';
   static const String statesThemeState = 'lib/model/states/theme_state.dart';
 

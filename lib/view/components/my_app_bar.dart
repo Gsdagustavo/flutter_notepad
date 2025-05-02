@@ -8,8 +8,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Consumer<ThemeState>(
       builder:
           (context, state, child) => AppBar(

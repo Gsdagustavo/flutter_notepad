@@ -12,8 +12,8 @@ class NoteState with ChangeNotifier {
   NoteState() {
     _notes.add(
       Note(
-        'Notas da escola',
-        'Ultimamente eu tenho tirado boas notas na escola',
+        name: 'Notas da escola',
+        description: 'Ultimamente eu tenho tirado boas notas na escola',
       ),
     );
   }
