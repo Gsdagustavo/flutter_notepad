@@ -19,37 +19,45 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer<NoteState>(
       builder:
-          (context, noteState, _) => Scaffold(
-            appBar: const MyAppBar(),
+          (context, noteState, _) => GestureDetector(
+            onTap: FocusScope.of(context).unfocus,
 
-            body: Column(
-              children: [
-                /// search bar
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+            child: Scaffold(
+              appBar: const MyAppBar(),
+
+              body: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    /// search bar
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 25),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          prefixIcon: Icon(Icons.search),
+                          label: Text('Pesquisar anotação'),
+                        ),
+
+                        controller: _searchController,
+                      ),
                     ),
-                    prefixIcon: Icon(Icons.search),
-                    label: Text('Pesquisar anotação'),
-                  ),
 
-                  controller: _searchController,
+                    /// list of all notes
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: noteState.notes.length,
+                        itemBuilder: (context, index) {
+                          final note = noteState.notes[index];
+                          return NoteTile(note: note);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-
-                const SizedBox(height: 25),
-
-                /// list of all notes
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: noteState.notes.length,
-                    itemBuilder: (context, index) {
-                      final note = noteState.notes[index];
-                      return NoteTile(note: note);
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
     );
