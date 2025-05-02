@@ -15,7 +15,6 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
-
   int _quantCaracteres = 0;
 
   void _countCaracteres() {
@@ -45,7 +44,10 @@ class _NotePageState extends State<NotePage> {
 
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text('$_quantCaracteres caracteres', style: TextStyle(fontSize: 12),),
+                child: Text(
+                  '$_quantCaracteres caracteres',
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
 
               Expanded(
