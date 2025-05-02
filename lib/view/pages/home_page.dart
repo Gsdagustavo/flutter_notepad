@@ -72,12 +72,23 @@ class NoteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(note.name),
+      title: Text(
+        note.name,
+        style: TextStyle(fontSize: 20, overflow: TextOverflow.ellipsis),
+      ),
+
+      shape: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey),
+      ),
+
       subtitle: Text(
         note.description.isNotEmpty ? note.description : 'Sem texto',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
+        style: TextStyle(
+          fontSize: 16,
+          overflow: TextOverflow.ellipsis,
+          color: Colors.grey,
+        ),
       ),
     );
   }
