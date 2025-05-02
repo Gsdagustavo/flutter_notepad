@@ -3,8 +3,11 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
+    /// provider to keep track of the current ThemeState of the App
     ChangeNotifierProvider(
-      create: (context) => ThemeState(), child: const MyApp(),),
+      create: (context) => ThemeState(),
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -13,15 +16,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Notepad',
+    return Consumer<ThemeState>(
+      builder:
+          (context, themeState, _) => MaterialApp(
+            title: 'Notepad',
 
-      /// Todo: implement theme toggling
+            theme: themeState.lightTheme ? ThemeData.light() : ThemeData.dark(),
+            debugShowCheckedModeBanner: false,
+            routes: {'/': (context) => const HomePage()},
 
-      debugShowCheckedModeBanner: false,
-      routes: {'/': (context) => const HomePage()},
-
-      initialRoute: '/',
+            initialRoute: '/',
+          ),
     );
   }
 }
@@ -31,7 +36,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Hello World!')));
+    return Consumer<ThemeState>(
+      builder:
+          (context, themeState, _) => Scaffold(
+            body: Center(
+              child: IconButton(
+                onPressed: () => themeState.toggleTheme(),
+                icon: Icon(
+                  themeState.lightTheme ? Icons.light_mode : Icons.dark_mode,
+                ),
+              ),
+            ),
+          ),
+    );
   }
 }
 
@@ -43,6 +60,7 @@ class ThemeState with ChangeNotifier {
   /// toggles the current theme (whether is light or dark)
   void toggleTheme() {
     _lightTheme = !_lightTheme;
+    debugPrint(_lightTheme.toString());
     notifyListeners();
   }
 }
