@@ -7,6 +7,8 @@ class Note {
   late final TextEditingController _nameController;
   late final TextEditingController _descriptionController;
 
+  Note(this._name, this._description);
+
   String get name => _name;
 
   String get description => _description;

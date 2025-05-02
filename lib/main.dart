@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/model/states/note_state.dart';
 import 'package:notepad/view/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -6,9 +7,13 @@ import 'model/states/theme_state.dart';
 
 void main() {
   runApp(
-    /// provider to keep track of the current ThemeState of the App
-    ChangeNotifierProvider(
-      create: (context) => ThemeState(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeState()),
+
+        ChangeNotifierProvider(create: (context) => NoteState()),
+      ],
+
       child: const MyApp(),
     ),
   );
