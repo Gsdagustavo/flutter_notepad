@@ -14,7 +14,21 @@ class HomePage extends StatelessWidget {
           (context, themeState, _) => Scaffold(
             appBar: const MyAppBar(),
 
-            body: Center(child: Text('Hello World!')),
+            body: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    prefixIcon: Icon(Icons.search),
+                    label: Text('Pesquisar anotação'),
+                  ),
+
+                  controller: ,
+                ),
+              ],
+            ),
           ),
     );
   }
