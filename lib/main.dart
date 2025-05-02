@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeState(), child: const MyApp(),),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,6 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Notepad',
+
+      /// Todo: implement theme toggling
+
       debugShowCheckedModeBanner: false,
       routes: {'/': (context) => const HomePage()},
 
@@ -25,5 +32,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Center(child: Text('Hello World!')));
+  }
+}
+
+class ThemeState with ChangeNotifier {
+  bool _lightTheme = true;
+
+  bool get lightTheme => _lightTheme;
+
+  /// toggles the current theme (whether is light or dark)
+  void toggleTheme() {
+    _lightTheme = !_lightTheme;
+    notifyListeners();
   }
 }
