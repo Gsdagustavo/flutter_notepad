@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/model/note.dart';
+import 'package:notepad/view/pages/note_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/states/note_state.dart';
@@ -14,52 +16,91 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
+  List<Note> _notes = [];
+
+  void _searchNote(NoteState state) {
+    setState(() {
+      _notes =
+          state.notes
+              .where(
+                (note) => note.name.toLowerCase().contains(
+                  _searchController.text.toLowerCase().trim(),
+                ),
+              )
+              .toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteState>(
-      builder:
-          (context, noteState, _) => GestureDetector(
-            onTap: FocusScope.of(context).unfocus,
+      builder: (context, noteState, _) {
+        if (_searchController.text.isEmpty) {
+          _notes = noteState.notes;
+        }
 
-            child: Scaffold(
-              appBar: const MyAppBar(),
+        return GestureDetector(
+          onTap: FocusScope.of(context).unfocus,
 
-              body: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    /// search bar
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          prefixIcon: Icon(Icons.search),
-                          label: Text('Pesquisar anotação'),
-                        ),
+          child: Scaffold(
+            appBar: const MyAppBar(),
 
-                        controller: _searchController,
-                      ),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  // /// search bar
+                  TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.search),
+                      label: Text('Pesquisar anotação'),
                     ),
 
-                    /// list of all notes
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: noteState.notes.length,
-                        itemBuilder: (context, index) {
-                          final note = noteState.notes[index];
-                          return NoteTile(note: note);
-                        },
-                      ),
+                    onChanged: (_) => _searchNote(noteState),
+                    controller: _searchController,
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  /// list of all notes
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _notes.length,
+                      itemBuilder: (context, index) {
+                        final note = _notes[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: NoteTile(note: note),
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                final note = Note(name: '', description: '');
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NotePage(note: note)),
+                );
+              },
+
+              shape: CircleBorder(),
+              child: Icon(Icons.add),
+            ),
           ),
+        );
+      },
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../note.dart';
@@ -20,6 +21,15 @@ class NoteState with ChangeNotifier {
 
   /// adds a new note
   void addNote(Note note) {
+    if (note.description.isEmpty && note.name.isEmpty) {
+      debugPrint('nigga');
+      return;
+    }
+
+    if (_notes.firstWhereOrNull((n) => n.name == note.name) != null) {
+      return;
+    }
+
     _notes.add(note);
   }
 

@@ -12,7 +12,7 @@ class NoteTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        note.name,
+        note.name.isNotEmpty ? note.name : note.description,
         style: TextStyle(fontSize: 20, overflow: TextOverflow.ellipsis),
       ),
 
