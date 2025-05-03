@@ -42,12 +42,23 @@ class _NotePageState extends State<NotePage> {
     return '${note.lastEditDate.month}/${note.lastEditDate.day} - ${note.lastEditDate.hour}:${note.lastEditDate.minute}';
   }
 
+  void updateNote() {
+    final note = widget.note;
+
+    note.name = _nameController.text;
+    note.description = _descriptionController.text;
+    note.lastEditDate = DateTime.now();
+    _countCaracteres();
+  }
+
+  void unfocus() => FocusScope.of(context).unfocus();
+
   @override
   Widget build(BuildContext context) {
     final note = widget.note;
 
     return GestureDetector(
-      onTap: FocusScope.of(context).unfocus,
+      onTap: unfocus,
 
       child: Consumer2<ThemeState, NoteState>(
         builder:
@@ -55,6 +66,7 @@ class _NotePageState extends State<NotePage> {
               onPopInvokedWithResult: (didPop, _) async {
                 if (didPop) {
                   noteState.addNote(note);
+                  unfocus();
                 }
               },
 
@@ -76,13 +88,7 @@ class _NotePageState extends State<NotePage> {
                           fontWeight: FontWeight.bold,
                         ),
 
-                        onChanged: (_) {
-                          setState(() {
-                            note.name = _nameController.text;
-                          });
-
-                          _countCaracteres();
-                        },
+                        onChanged: (_) => updateNote(),
                       ),
 
                       /// last edit time and character count texts
@@ -104,13 +110,7 @@ class _NotePageState extends State<NotePage> {
                       Expanded(
                         child: TextField(
                           controller: _descriptionController,
-                          onChanged: (_) {
-                            setState(() {
-                              note.description = _descriptionController.text;
-                            });
-
-                            _countCaracteres();
-                          },
+                          onChanged: (_) => updateNote(),
 
                           maxLines: maxLines,
                           decoration: InputDecoration(border: InputBorder.none),

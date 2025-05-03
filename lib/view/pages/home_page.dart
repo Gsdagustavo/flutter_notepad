@@ -15,13 +15,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final FocusNode _searchFocusNode = FocusNode();
-
   @override
   void initState() {
     super.initState();
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      _searchFocusNode.unfocus();
+      FocusScope.of(context).unfocus();
     });
   }
 
@@ -47,7 +45,6 @@ class _HomePageState extends State<HomePage> {
                   // /// search bar
                   TextField(
                     controller: noteState.searchController,
-                    focusNode: _searchFocusNode,
 
                     decoration: InputDecoration(
                       border: OutlineInputBorder(

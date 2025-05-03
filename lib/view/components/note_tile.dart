@@ -18,6 +18,7 @@ class NoteTile extends StatelessWidget {
             title: Text(
               note.name.isNotEmpty ? note.name : note.description,
               style: TextStyle(fontSize: 20, overflow: TextOverflow.ellipsis),
+              maxLines: 1,
             ),
 
             shape: OutlineInputBorder(
@@ -32,6 +33,7 @@ class NoteTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 color: Colors.grey,
               ),
+              maxLines: 1,
             ),
 
             trailing: IconButton(

@@ -1,16 +1,63 @@
-# notepad
+````markdown
+# 📝 Flutter Notepad
 
-A new Flutter project.
+A simple and clean Notepad app built using Flutter. This app allows users to create, edit, and delete notes with a
+lightweight and responsive interface, supporting both light and dark themes.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- 📄 Create, edit, and delete notes
+- 🌙 Light & Dark mode toggle
+- 🔍 Search notes by title or content
+- 🧠 Auto-save functionality
+- 💾 Local storage using `shared_preferences` and `sqlite`
+- 📱 Responsive design for phones and tablets
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Getting Started
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Prerequisites
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter SDK: [Install Flutter](https://flutter.dev/docs/get-started/install)
+- Dart SDK (comes with Flutter)
+- A code editor like VSCode or Android Studio
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/Gsdagustavo/flutter_notepad
+   cd flutter_notepad
+````
+
+2. **Install dependencies:**
+
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run the app:**
+
+   ```bash
+   flutter run
+   ```
+
+## 📂 Project Structure
+
+```
+lib/
+├── main.dart
+├── models/       # Note models
+├── view/         # UI screens for home, editor, etc.        
+├── controller/   # Storage or theme services
+```
+
+## 🧪 Testing
+
+To run unit or widget tests:
+
+```bash
+flutter test
+```
+
+Made with ❤️ using Flutter
