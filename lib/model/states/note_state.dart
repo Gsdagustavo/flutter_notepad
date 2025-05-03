@@ -6,7 +6,14 @@ import '../note.dart';
 class NoteState with ChangeNotifier {
   final _notes = <Note>[];
 
+  var _filteredNotes = <Note>[];
+  final _searchController = TextEditingController();
+
   List<Note> get notes => _notes;
+
+  get filteredNotes => _filteredNotes;
+
+  get searchController => _searchController;
 
   /// adds a new note in the notes list when created
   /// (this is just for debugging purposes. remove this in production)
@@ -36,5 +43,20 @@ class NoteState with ChangeNotifier {
   /// deletes a note
   void deleteNote(Note note) {
     _notes.remove(note);
+    notifyListeners();
+  }
+
+  void searchNotes() {
+    _filteredNotes =
+        _searchController.text.isEmpty
+            ? _notes
+            : _notes
+                .where(
+                  (note) => note.name.toLowerCase().contains(
+                    _searchController.text.toLowerCase().trim(),
+                  ),
+                )
+                .toList();
+    notifyListeners();
   }
 }

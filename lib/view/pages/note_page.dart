@@ -26,6 +26,12 @@ class _NotePageState extends State<NotePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _countCaracteres();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
