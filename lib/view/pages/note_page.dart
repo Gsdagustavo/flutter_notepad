@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notepad/model/states/note_state.dart';
+import 'package:notepad/view/components/my_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/note.dart';
@@ -58,28 +59,7 @@ class _NotePageState extends State<NotePage> {
               },
 
               child: Scaffold(
-                appBar: AppBar(
-                  title: Text('Notepad'),
-                  centerTitle: true,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          /// toggle theme button
-                          IconButton(
-                            onPressed: () => themeState.toggleTheme(),
-                            icon: Icon(
-                              themeState.isLightMode
-                                  ? Icons.light_mode
-                                  : Icons.dark_mode,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                appBar: MyAppBar(),
 
                 body: Padding(
                   padding: const EdgeInsets.all(16),
