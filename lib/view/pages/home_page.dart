@@ -15,6 +15,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final FocusNode _searchFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      _searchFocusNode.unfocus();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteState>(
@@ -24,7 +35,7 @@ class _HomePageState extends State<HomePage> {
 
           child: Scaffold(
             appBar: const MyAppBar(),
-
+x
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -33,6 +44,7 @@ class _HomePageState extends State<HomePage> {
                   TextField(
                     onChanged: (_) => noteState.searchNotes(),
                     controller: noteState.searchController,
+                    focusNode: _searchFocusNode,
 
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -62,12 +74,12 @@ class _HomePageState extends State<HomePage> {
                   /// list of all notes
                   Expanded(
                     child:
-                        noteState.notes.isEmpty
+                        noteState.filteredNotes.isEmpty
                             ? Center(child: Text('Nenhuma nota encontrada'))
                             : ListView.builder(
-                              itemCount: noteState.notes.length,
+                              itemCount: noteState.filteredNotes.length,
                               itemBuilder: (context, index) {
-                                final note = noteState.notes[index];
+                                final note = noteState.filteredNotes[index];
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 10,

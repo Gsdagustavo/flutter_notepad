@@ -29,7 +29,6 @@ class NoteState with ChangeNotifier {
   /// adds a new note
   void addNote(Note note) {
     if (note.description.isEmpty && note.name.isEmpty) {
-      debugPrint('nigga');
       return;
     }
 
@@ -38,25 +37,32 @@ class NoteState with ChangeNotifier {
     }
 
     _notes.add(note);
+    searchNotes(); // atualizar filtered notes
+    notifyListeners();
   }
 
   /// deletes a note
   void deleteNote(Note note) {
     _notes.remove(note);
+    searchNotes(); // atualizar filtered notes
     notifyListeners();
   }
 
   void searchNotes() {
+    if (_searchController.text.isEmpty) {
+      _filteredNotes = [..._notes];
+      _filteredNotes.sort((a, b) => b.lastEditDate.compareTo(a.lastEditDate));
+      notifyListeners();
+      return;
+    }
+
+    final searchedNote = _searchController.text.toLowerCase().trim();
+
     _filteredNotes =
-        _searchController.text.isEmpty
-            ? _notes
-            : _notes
-                .where(
-                  (note) => note.name.toLowerCase().contains(
-                    _searchController.text.toLowerCase().trim(),
-                  ),
-                )
-                .toList();
+        _notes
+            .where((note) => note.name.toLowerCase().contains(searchedNote))
+            .toList();
+
     notifyListeners();
   }
 }
