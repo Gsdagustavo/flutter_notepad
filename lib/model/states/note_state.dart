@@ -6,72 +6,76 @@ import '../note.dart';
 
 class NoteState with ChangeNotifier {
   final _notes = <Note>[];
+  final _filteredNotes = <Note>[];
 
-  var _filteredNotes = <Note>[];
   final _searchController = TextEditingController();
 
   final NoteController _noteController = NoteController();
 
-  List<Note> get notes => _notes;
-
   get filteredNotes => _filteredNotes;
+
+  List<Note> get notes => _notes;
 
   get searchController => _searchController;
 
-  /// adds a new note in the notes list when created
-  /// (this is just for debugging purposes. remove this in production)
   NoteState() {
-    _notes.add(
-      Note(
-        name: 'Notas da escola',
-        description: 'Ultimamente eu tenho tirado boas notas na escola',
-      ),
-    );
+    _searchController.addListener(searchNotes);
+    loadNotes();
   }
 
+  /// loads the notes from the database
   Future<void> loadNotes() async {
     final list = await _noteController.select();
     _notes.clear();
-    notes.addAll(list);
+    _notes.addAll(list);
+    searchNotes();
     notifyListeners();
   }
 
   /// adds a new note
-  void addNote(Note note) {
-    if (note.description.isEmpty && note.name.isEmpty) {
-      return;
-    }
+  Future<void> addNote(Note note) async {
+    /// invalid note
+    if (note.description.isEmpty && note.name.isEmpty) return;
+    if (_notes.firstWhereOrNull((n) => n.name == note.name) != null) return;
 
-    if (_notes.firstWhereOrNull((n) => n.name == note.name) != null) {
-      return;
-    }
-
-    _noteController.insert(note);
-    searchNotes(); // atualizar filtered notes
-    notifyListeners();
+    /// adds the note
+    await _noteController.insert(note);
+    await loadNotes();
   }
 
   /// deletes a note
-  void deleteNote(Note note) {
-    _noteController.delete(note);
-    searchNotes(); // atualizar filtered notes
-    notifyListeners();
+  Future<void> deleteNote(Note note) async {
+    await _noteController.delete(note);
+    await loadNotes();
   }
 
   void searchNotes() {
-    if (_searchController.text.isEmpty) {
-      _filteredNotes = ;
-      notifyListeners();
-      return;
+    debugPrint('search: ${_searchController.text}');
+    final search = _searchController.text.toLowerCase().trim();
+    final result = <Note>[];
+    _filteredNotes.clear();
+
+    if (search.isEmpty) {
+      _filteredNotes.addAll(_notes);
+    } else {
+      _filteredNotes.addAll(
+        _notes
+            .where(
+              (note) =>
+                  note.name.toLowerCase().contains(search) ||
+                  note.description.toLowerCase().contains(search),
+            )
+            .toList(),
+      );
     }
 
-    final searchedNote = _searchController.text.toLowerCase().trim();
+    _filteredNotes.addAll(result);
 
-    _filteredNotes =
-        _notes
-            .where((note) => note.name.toLowerCase().contains(searchedNote))
-            .toList();
-
+    debugPrint('filtered notes: ${_filteredNotes.join('\n')}');
     notifyListeners();
+  }
+
+  Future<bool> doesNoteExists(Note note) async {
+    return await _noteController.doesNoteExists(note);
   }
 }

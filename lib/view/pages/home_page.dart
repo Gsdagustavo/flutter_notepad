@@ -26,6 +26,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<NoteState>(
       builder: (context, noteState, _) {
@@ -41,7 +46,6 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   // /// search bar
                   TextField(
-                    onChanged: (_) => noteState.searchNotes(),
                     controller: noteState.searchController,
                     focusNode: _searchFocusNode,
 

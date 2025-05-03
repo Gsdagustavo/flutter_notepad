@@ -11,9 +11,10 @@ Future<Database> getDatabase() async {
 
   return openDatabase(
     path,
-    onCreate: (db, version) {
-      db.execute(TableNote.createTable);
+    onCreate: (db, version) async {
+      await db.execute(TableNote.createTable);
     },
+
     version: version,
   );
 }
@@ -23,27 +24,38 @@ class TableNote {
 
   static const String name = 'name';
   static const String description = 'description';
+  static const String lastEditDate = 'lastEditDate';
 
   static const String createTable = '''
       create table $tableName(
       $name text primary key,
       $description text,
+      $lastEditDate lastEditDate integer
       );
   ''';
 
   static Map<String, dynamic> toMap(Note note) {
-    return {TableNote.name: note.name, TableNote.description: note.description};
+    return {
+      TableNote.name: note.name,
+      TableNote.description: note.description,
+      TableNote.lastEditDate: note.lastEditDate.millisecondsSinceEpoch,
+    };
   }
 }
 
 class NoteController {
+  /// inserts to database
   Future<void> insert(Note note) async {
     final database = await getDatabase();
-    final noteMap = TableNote.toMap(note);
 
-    await database.insert(TableNote.tableName, noteMap);
+    await database.insert(
+      TableNote.tableName,
+      note.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
+  /// delete from database
   Future<void> delete(Note note) async {
     final database = await getDatabase();
 
@@ -54,31 +66,27 @@ class NoteController {
     );
   }
 
-  Future<void> update(Note note) async {
+  /// select from database
+  Future<List<Note>> select() async {
     final database = await getDatabase();
-    final noteMap = TableNote.toMap(note);
 
-    await database.update(
+    final List<Map<String, dynamic>> results = await database.query(
       TableNote.tableName,
-      noteMap,
+      orderBy: '${TableNote.lastEditDate} desc',
+    );
+
+    return results.map((map) => Note.fromMap(map)).toList();
+  }
+
+  Future<bool> doesNoteExists(Note note) async {
+    final database = await getDatabase();
+
+    final query = await database.query(
+      TableNote.tableName,
       where: '${TableNote.name} = ?',
       whereArgs: [note.name],
     );
-  }
 
-  Future<List<Note>> select() async {
-    final database = await getDatabase();
-    final List<Map<String, dynamic>> results = await database.query(
-      TableNote.tableName,
-    );
-
-    return results
-        .map(
-          (note) => Note(
-            name: note[TableNote.name],
-            description: note[TableNote.description],
-          ),
-        )
-        .toList();
+    return query.isEmpty;
   }
 }

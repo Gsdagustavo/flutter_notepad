@@ -17,6 +17,9 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+
   int _quantCaracteres = 0;
 
   void _countCaracteres() {
@@ -28,6 +31,8 @@ class _NotePageState extends State<NotePage> {
   @override
   void initState() {
     super.initState();
+    _nameController.text = widget.note.name;
+    _descriptionController.text = widget.note.description;
     _countCaracteres();
   }
 
@@ -46,10 +51,9 @@ class _NotePageState extends State<NotePage> {
       child: Consumer2<ThemeState, NoteState>(
         builder:
             (context, themeState, noteState, child) => PopScope(
-              onPopInvokedWithResult: (didPop, _) {
+              onPopInvokedWithResult: (didPop, _) async {
                 if (didPop) {
                   noteState.addNote(note);
-                  noteState.searchNotes();
                 }
               },
 
@@ -82,8 +86,10 @@ class _NotePageState extends State<NotePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      /// Note name text field
                       TextField(
-                        controller: note.nameController,
+                        controller: _nameController,
+
                         decoration: InputDecoration(border: InputBorder.none),
                         style: TextStyle(
                           fontSize: 30,
@@ -91,10 +97,15 @@ class _NotePageState extends State<NotePage> {
                         ),
 
                         onChanged: (_) {
-                          note.lastEditDate = DateTime.now();
+                          setState(() {
+                            note.name = _nameController.text;
+                          });
+
+                          _countCaracteres();
                         },
                       ),
 
+                      /// last edit time and character count texts
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
@@ -109,11 +120,15 @@ class _NotePageState extends State<NotePage> {
                         ),
                       ),
 
+                      /// Note description text field
                       Expanded(
                         child: TextField(
-                          controller: widget.note.descriptionController,
+                          controller: _descriptionController,
                           onChanged: (_) {
-                            widget.note.lastEditDate = DateTime.now();
+                            setState(() {
+                              note.description = _descriptionController.text;
+                            });
+
                             _countCaracteres();
                           },
 

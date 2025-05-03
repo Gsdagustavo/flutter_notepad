@@ -1,28 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'package:notepad/controller/database.dart';
 
 class Note {
-  final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  String name;
+  String description;
+  DateTime lastEditDate;
 
-  late DateTime _lastEditDate;
+  Note({required this.name, required this.description, DateTime? lastEditDate})
+    : lastEditDate = lastEditDate ?? DateTime.now();
 
-  Note({required String name, required String description}) {
-    _nameController.text = name;
-    _descriptionController.text = description;
-    _lastEditDate = DateTime.now();
-  }
+  Map<String, dynamic> toMap() => {
+    TableNote.name: name,
+    TableNote.description: description,
+    TableNote.lastEditDate: lastEditDate.millisecondsSinceEpoch,
+  };
 
-  TextEditingController get nameController => _nameController;
-
-  TextEditingController get descriptionController => _descriptionController;
-
-  String get name => nameController.text;
-
-  String get description => descriptionController.text;
-
-  DateTime get lastEditDate => _lastEditDate;
-
-  set lastEditDate(DateTime value) {
-    _lastEditDate = value;
-  }
+  static Note fromMap(Map<String, dynamic> map) => Note(
+    name: map[TableNote.name],
+    description: map[TableNote.description],
+    lastEditDate: DateTime.fromMillisecondsSinceEpoch(
+      map[TableNote.lastEditDate],
+    ),
+  );
 }
