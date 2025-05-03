@@ -31,8 +31,15 @@ class _NotePageState extends State<NotePage> {
     _countCaracteres();
   }
 
+  String getLastEditTime() {
+    final note = widget.note;
+    return '${note.lastEditDate.month}/${note.lastEditDate.day} - ${note.lastEditDate.hour}:${note.lastEditDate.minute}';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final note = widget.note;
+
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
 
@@ -41,7 +48,7 @@ class _NotePageState extends State<NotePage> {
             (context, themeState, noteState, child) => PopScope(
               onPopInvokedWithResult: (didPop, _) {
                 if (didPop) {
-                  noteState.addNote(widget.note);
+                  noteState.addNote(note);
                   noteState.searchNotes();
                 }
               },
@@ -76,7 +83,7 @@ class _NotePageState extends State<NotePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextField(
-                        controller: widget.note.nameController,
+                        controller: note.nameController,
                         decoration: InputDecoration(border: InputBorder.none),
                         style: TextStyle(
                           fontSize: 30,
@@ -84,7 +91,7 @@ class _NotePageState extends State<NotePage> {
                         ),
 
                         onChanged: (_) {
-                          widget.note.lastEditDate = DateTime.now();
+                          note.lastEditDate = DateTime.now();
                         },
                       ),
 
@@ -92,12 +99,10 @@ class _NotePageState extends State<NotePage> {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           children: [
-                            Text(
-                              '${widget.note.lastEditDate.month}/${widget.note.lastEditDate.day} - ${widget.note.lastEditDate.hour}:${widget.note.lastEditDate.minute} | ',
-                            ),
+                            Text('${getLastEditTime()} | '),
 
                             Text(
-                              '$_quantCaracteres characters',
+                              '$_quantCaracteres caracteres',
                               style: TextStyle(fontSize: 12),
                             ),
                           ],
