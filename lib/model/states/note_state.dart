@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:notepad/controller/database.dart';
 
 import '../note.dart';
 
@@ -8,6 +9,8 @@ class NoteState with ChangeNotifier {
 
   var _filteredNotes = <Note>[];
   final _searchController = TextEditingController();
+
+  final NoteController _noteController = NoteController();
 
   List<Note> get notes => _notes;
 
@@ -26,6 +29,13 @@ class NoteState with ChangeNotifier {
     );
   }
 
+  Future<void> loadNotes() async {
+    final list = await _noteController.select();
+    _notes.clear();
+    notes.addAll(list);
+    notifyListeners();
+  }
+
   /// adds a new note
   void addNote(Note note) {
     if (note.description.isEmpty && note.name.isEmpty) {
@@ -36,22 +46,21 @@ class NoteState with ChangeNotifier {
       return;
     }
 
-    _notes.add(note);
+    _noteController.insert(note);
     searchNotes(); // atualizar filtered notes
     notifyListeners();
   }
 
   /// deletes a note
   void deleteNote(Note note) {
-    _notes.remove(note);
+    _noteController.delete(note);
     searchNotes(); // atualizar filtered notes
     notifyListeners();
   }
 
   void searchNotes() {
     if (_searchController.text.isEmpty) {
-      _filteredNotes = [..._notes];
-      _filteredNotes.sort((a, b) => b.lastEditDate.compareTo(a.lastEditDate));
+      _filteredNotes = ;
       notifyListeners();
       return;
     }

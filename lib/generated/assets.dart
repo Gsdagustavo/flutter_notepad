@@ -4,6 +4,7 @@ class Assets {
 
   static const String componentsMyAppBar = 'lib/view/components/my_app_bar.dart';
   static const String componentsNoteTile = 'lib/view/components/note_tile.dart';
+  static const String controllerDatabase = 'lib/controller/database.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String libMain = 'lib/main.dart';
   static const String modelNote = 'lib/model/note.dart';
