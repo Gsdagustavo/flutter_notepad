@@ -4,6 +4,7 @@ import 'package:notepad/view/pages/note_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/states/note_state.dart';
+import '../../model/states/theme_state.dart';
 import '../components/my_app_bar.dart';
 import '../components/note_tile.dart';
 
@@ -22,8 +23,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NoteState>(
-      builder: (context, noteState, _) {
+    return Consumer2<NoteState, ThemeState>(
+      builder: (context, noteState, themeState, _) {
+
+        /// if the theme is not loaded yet, shows a circular progress indicator
+        if (!themeState.isLoaded) {
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
+
         /// this gesture detector and the implementation of the [onTap] function
         /// is needed to unfocus when the user taps somewhere of the screen
         /// and dismiss the keyboard when searching for a note

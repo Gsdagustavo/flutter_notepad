@@ -5,12 +5,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ThemeState with ChangeNotifier {
   static const String lightModeKey = 'lightMode';
 
+  /// whether the theme was loaded from Shared Preferences or not
+  bool _isLoaded = false;
+
   /// default theme is light
   ThemeMode _themeMode = ThemeMode.dark;
 
   ThemeMode get themeMode => _themeMode;
 
   bool get isLightMode => _themeMode == ThemeMode.light;
+
+
+  bool get isLoaded => _isLoaded;
 
   /// calls the [loadTheme] function when instantiated
   ThemeState() {
@@ -35,6 +41,7 @@ class ThemeState with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final isLightMode = prefs.getBool(lightModeKey) ?? false;
 
+    _isLoaded = true;
     _themeMode = isLightMode ? ThemeMode.light : ThemeMode.dark;
     notifyListeners();
   }

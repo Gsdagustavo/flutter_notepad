@@ -85,7 +85,6 @@ class _NotePageState extends State<NotePage> {
       /// NoteState is for keeping track of the note
       child: Consumer2<ThemeState, NoteState>(
         builder:
-
             /// PopScope will handle if the user exited the NotePage, and if he
             (context, themeState, noteState, child) => PopScope(
               onPopInvokedWithResult: (didPop, _) async {
