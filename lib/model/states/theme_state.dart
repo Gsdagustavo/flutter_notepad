@@ -12,7 +12,7 @@ class ThemeState with ChangeNotifier {
 
   bool get isLightMode => _themeMode == ThemeMode.light;
 
-
+  /// calls the [loadTheme] function when instantiated
   ThemeState() {
     loadTheme();
   }
@@ -29,7 +29,8 @@ class ThemeState with ChangeNotifier {
     await prefs.setBool(lightModeKey, isLightMode);
   }
 
-  /// toggles the current theme (whether is light or dark)
+  /// toggles the current theme (whether is light or dark) and saves it to
+  /// SharedPreferences
   Future<void> loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isLightMode = prefs.getBool(lightModeKey) ?? false;

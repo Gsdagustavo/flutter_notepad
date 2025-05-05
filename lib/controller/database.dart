@@ -6,6 +6,7 @@ import '../model/note.dart';
 const String databaseName = 'notepad.db';
 const int version = 1;
 
+/// Returns an instance of a database
 Future<Database> getDatabase() async {
   final path = join(await getDatabasesPath(), databaseName);
 
@@ -19,13 +20,17 @@ Future<Database> getDatabase() async {
   );
 }
 
+/// Represents the Note table on SQLite database
 class TableNote {
+  /// Table name
   static const String tableName = 'note';
 
+  /// Columns
   static const String name = 'name';
   static const String description = 'description';
   static const String lastEditDate = 'lastEditDate';
 
+  /// Command to create the Note table in SQLite
   static const String createTable = '''
       create table $tableName(
       $name text primary key,
@@ -34,6 +39,7 @@ class TableNote {
       );
   ''';
 
+  /// Return a readable object (Map) for the database
   static Map<String, dynamic> toMap(Note note) {
     return {
       TableNote.name: note.name,
@@ -44,7 +50,7 @@ class TableNote {
 }
 
 class NoteController {
-  /// inserts to database
+  /// inserts a note or overwrites the note
   Future<void> insert(Note note) async {
     final database = await getDatabase();
 
@@ -66,7 +72,7 @@ class NoteController {
     );
   }
 
-  /// select from database
+  /// returns a list of notes stored on the database
   Future<List<Note>> select() async {
     final database = await getDatabase();
 
@@ -78,6 +84,7 @@ class NoteController {
     return results.map((map) => Note.fromMap(map)).toList();
   }
 
+  /// returns whether a note exists in the database or not
   Future<bool> doesNoteExists(Note note) async {
     final database = await getDatabase();
 

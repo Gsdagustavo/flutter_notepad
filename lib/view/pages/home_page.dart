@@ -7,42 +7,41 @@ import '../../model/states/note_state.dart';
 import '../components/my_app_bar.dart';
 import '../components/note_tile.dart';
 
-class HomePage extends StatefulWidget {
+/// This is the home page of the application
+///
+/// Here will be listed all the notes made by the user, in forms of [NoteTile]
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      FocusScope.of(context).unfocus();
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+  /// clears the text on the text field and calls the [searchNotes] function
+  /// from the [NoteState] class
+  void _searchNote(BuildContext context, NoteState noteState) {
+    noteState.searchController.clear();
+    FocusScope.of(context).unfocus();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteState>(
       builder: (context, noteState, _) {
+        /// this gesture detector and the implementation of the [onTap] function
+        /// is needed to unfocus when the user taps somewhere of the screen
+        /// and dismiss the keyboard when searching for a note
         return GestureDetector(
           onTap: FocusScope.of(context).unfocus,
 
           child: Scaffold(
+            /// custom App Bar
             appBar: const MyAppBar(),
 
+            /// padding for style
             body: Padding(
               padding: const EdgeInsets.all(16.0),
+
+              /// all the widgets are here
               child: Column(
                 children: [
-                  // /// search bar
+                  /// search bar
                   TextField(
                     controller: noteState.searchController,
 
@@ -50,18 +49,20 @@ class _HomePageState extends State<HomePage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      prefixIcon: Icon(Icons.search),
 
+                      /// search icon
+                      prefixIcon: const Icon(Icons.search),
+
+                      /// if there is any text on the search text field, a "clear"
+                      /// icon will be shown, and when it's pressed, the
+                      /// text field will be cleansed and the list of shown notes
+                      /// will be updated
                       suffixIcon:
                           noteState.searchController.text.isNotEmpty
                               ? IconButton(
-                                onPressed: () {
-                                  noteState.searchController.clear();
-                                  FocusScope.of(context).unfocus();
-                                  noteState.searchNotes();
-                                },
-
                                 icon: Icon(Icons.clear),
+                                onPressed:
+                                    () => _searchNote(context, noteState),
                               )
                               : null,
 
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
+                  /// space between the search field and the list of notes
                   const SizedBox(height: 10),
 
                   /// list of all notes
@@ -93,17 +95,23 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
+            /// button to add a new note
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 final note = Note(name: '', description: '');
 
+                /// when the user interacts with it, it navigates to a page
+                /// to edit the note
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => NotePage(note: note)),
                 );
               },
 
+              /// sets the button to be a circle
               shape: CircleBorder(),
+
+              /// add icon
               child: Icon(Icons.add),
             ),
           ),

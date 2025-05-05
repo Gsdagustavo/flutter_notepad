@@ -6,11 +6,15 @@ import 'package:provider/provider.dart';
 import '../../model/note.dart';
 import '../../model/states/theme_state.dart';
 
+/// Declares how many lines the user can write on
 const int maxLines = 100;
 
+/// This class represents the Note Page that is shown when the user selects
+/// a note from the Home Page or when a new note is created
 class NotePage extends StatefulWidget {
   const NotePage({super.key, required this.note});
 
+  ///  Represents the note that will be shown
   final Note note;
 
   @override
@@ -18,39 +22,55 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
+  /// Controllers to edit the texts (name and description)
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  int _quantCaracteres = 0;
+  /// Keep track of the number of characters in the description
+  ///
+  /// Useful for showing the number of characters under the note name (just for UX)
+  int _numCharacters = 0;
 
-  void _countCaracteres() {
+  /// Sets [_numCharacters] to the number of characters in the note's description
+  void _countCharacters() {
     setState(() {
-      _quantCaracteres = widget.note.description.length;
+      _numCharacters = widget.note.description.length;
     });
   }
+
+  /// Decoration of the text fields
+  final InputDecoration _textFieldDecoration = InputDecoration(
+    border: InputBorder.none,
+  );
 
   @override
   void initState() {
     super.initState();
+
+    /// Sets the initial texts as the notes's texts (name and description)
     _nameController.text = widget.note.name;
     _descriptionController.text = widget.note.description;
-    _countCaracteres();
+    _countCharacters();
   }
 
+  /// Returns a [String] for showing the user when the note was last updated
   String getLastEditTime() {
-    final note = widget.note;
-    return '${note.lastEditDate.month}/${note.lastEditDate.day} - ${note.lastEditDate.hour}:${note.lastEditDate.minute}';
+    final lastEditDate = widget.note.lastEditDate;
+    return '${lastEditDate.month}/${lastEditDate.day} - ${lastEditDate.hour}:${lastEditDate.minute}';
   }
 
+  /// Updates the note based on the current text on the text fields
   void updateNote() {
     final note = widget.note;
 
     note.name = _nameController.text;
     note.description = _descriptionController.text;
     note.lastEditDate = DateTime.now();
-    _countCaracteres();
+
+    _countCharacters();
   }
 
+  /// Util method to unfocus the current scope
   void unfocus() => FocusScope.of(context).unfocus();
 
   @override
@@ -60,8 +80,13 @@ class _NotePageState extends State<NotePage> {
     return GestureDetector(
       onTap: unfocus,
 
+      /// ThemeState is for keeping track of the current theme of the app (light or dark)
+      ///
+      /// NoteState is for keeping track of the note
       child: Consumer2<ThemeState, NoteState>(
         builder:
+
+            /// PopScope will handle if the user exited the NotePage, and if he
             (context, themeState, noteState, child) => PopScope(
               onPopInvokedWithResult: (didPop, _) async {
                 if (didPop) {
@@ -81,14 +106,14 @@ class _NotePageState extends State<NotePage> {
                       /// Note name text field
                       TextField(
                         controller: _nameController,
+                        decoration: _textFieldDecoration,
 
-                        decoration: InputDecoration(border: InputBorder.none),
+                        onChanged: (_) => updateNote(),
+
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                         ),
-
-                        onChanged: (_) => updateNote(),
                       ),
 
                       /// last edit time and character count texts
@@ -99,7 +124,7 @@ class _NotePageState extends State<NotePage> {
                             Text('${getLastEditTime()} | '),
 
                             Text(
-                              '$_quantCaracteres caracteres',
+                              '$_numCharacters caracteres',
                               style: TextStyle(fontSize: 12),
                             ),
                           ],
@@ -107,14 +132,12 @@ class _NotePageState extends State<NotePage> {
                       ),
 
                       /// Note description text field
-                      Expanded(
-                        child: TextField(
-                          controller: _descriptionController,
-                          onChanged: (_) => updateNote(),
+                      TextField(
+                        controller: _descriptionController,
+                        decoration: _textFieldDecoration,
 
-                          maxLines: maxLines,
-                          decoration: InputDecoration(border: InputBorder.none),
-                        ),
+                        onChanged: (_) => updateNote(),
+                        maxLines: maxLines,
                       ),
                     ],
                   ),

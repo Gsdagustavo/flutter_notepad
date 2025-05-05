@@ -4,6 +4,7 @@ import 'package:notepad/controller/database.dart';
 
 import '../note.dart';
 
+/// keeps track of the Notes
 class NoteState with ChangeNotifier {
   final _notes = <Note>[];
   final _filteredNotes = <Note>[];
@@ -16,7 +17,7 @@ class NoteState with ChangeNotifier {
 
   List<Note> get notes => _notes;
 
-  get searchController => _searchController;
+  TextEditingController get searchController => _searchController;
 
   NoteState() {
     _searchController.addListener(searchNotes);
@@ -32,7 +33,7 @@ class NoteState with ChangeNotifier {
     notifyListeners();
   }
 
-  /// adds a new note
+  /// adds a new note or overwrites a note
   Future<void> addNote(Note note) async {
     /// invalid note
     if (note.description.isEmpty && note.name.isEmpty) return;
@@ -50,7 +51,6 @@ class NoteState with ChangeNotifier {
   }
 
   void searchNotes() {
-    debugPrint('search: ${_searchController.text}');
     final search = _searchController.text.toLowerCase().trim();
     final result = <Note>[];
     _filteredNotes.clear();
@@ -70,8 +70,6 @@ class NoteState with ChangeNotifier {
     }
 
     _filteredNotes.addAll(result);
-
-    debugPrint('filtered notes: ${_filteredNotes.join('\n')}');
     notifyListeners();
   }
 
