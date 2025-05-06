@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notepad/model/states/note_state.dart';
 import 'package:notepad/view/pages/home_page.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,11 @@ void main() {
         ChangeNotifierProvider(create: (context) => NoteState()),
       ],
 
-      child: const MyApp(),
+      child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: MyApp(),
+      ),
     ),
   );
 }

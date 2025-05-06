@@ -23,6 +23,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Consumer2<NoteState, ThemeState>(
       builder: (context, noteState, themeState, _) {
 
