@@ -26,11 +26,6 @@ class HomePage extends StatelessWidget {
     return Consumer2<NoteState, ThemeState>(
       builder: (context, noteState, themeState, _) {
 
-        /// if the theme is not loaded yet, shows a circular progress indicator
-        if (!themeState.isLoaded) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
-        }
-
         /// this gesture detector and the implementation of the [onTap] function
         /// is needed to unfocus when the user taps somewhere of the screen
         /// and dismiss the keyboard when searching for a note

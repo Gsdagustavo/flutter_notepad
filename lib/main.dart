@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
           ),
 
           /// defines the routes of the app (in this case, only [HomePage])
-          routes: {'/': (context) => const HomePage()},
+          routes: {'/': (_) => const HomePage()},
 
           /// defines the [HomePage] ('/') as the initial route of the app
           ///
