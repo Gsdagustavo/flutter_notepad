@@ -131,12 +131,14 @@ class _NotePageState extends State<NotePage> {
                       ),
 
                       /// Note description text field
-                      TextField(
-                        controller: _descriptionController,
-                        decoration: _textFieldDecoration,
+                      Expanded(
+                        child: TextField(
+                          controller: _descriptionController,
+                          decoration: _textFieldDecoration,
 
-                        onChanged: (_) => updateNote(),
-                        maxLines: maxLines,
+                          onChanged: (_) => updateNote(),
+                          maxLines: maxLines,
+                        ),
                       ),
                     ],
                   ),
