@@ -36,6 +36,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeState>(
       builder: (context, state, child) {
+
+        /// returns a material app that shows a CircularProgressIndicator while
+        /// the theme is not loaded from shared preferences
+        if (!state.isLoaded) {
+          return MaterialApp(
+            home: Scaffold(body: Center(child: CircularProgressIndicator())),
+          );
+        }
+
         return MaterialApp(
           title: appTitle,
           debugShowCheckedModeBanner: debugShowCheckedModeBanner,

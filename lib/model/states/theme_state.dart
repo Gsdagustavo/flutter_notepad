@@ -8,7 +8,7 @@ class ThemeState with ChangeNotifier {
   /// whether the theme was loaded from Shared Preferences or not
   bool _isLoaded = false;
 
-  /// default theme is light
+  /// default theme is dark
   ThemeMode _themeMode = ThemeMode.dark;
 
   ThemeMode get themeMode => _themeMode;
