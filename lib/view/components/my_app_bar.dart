@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../model/states/theme_state.dart';
 
-const String appBarTitle = 'Notepad';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// This is a custom app bar that will be used on the entire application
 ///
@@ -14,28 +14,30 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeState>(
-      builder:
-          (context, state, child) => AppBar(
-            /// sets the app bar's title
-            title: Text(appBarTitle),
+      builder: (context, state, child) {
 
-            /// makes the title to appear on the center of the app bar
-            centerTitle: true,
+        return AppBar(
+          /// sets the app bar's title based on the user's system language
+          title: Text(AppLocalizations.of(context)!.appTitle),
 
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+          /// makes the title to appear on the center of the app bar
+          centerTitle: true,
 
-                /// adds an icon button to change the app's theme (light or dark)
-                child: IconButton(
-                  onPressed: () => state.toggleTheme(),
-                  icon: Icon(
-                    state.isLightMode ? Icons.light_mode : Icons.dark_mode,
-                  ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+
+              /// adds an icon button to change the app's theme (light or dark)
+              child: IconButton(
+                onPressed: () => state.toggleTheme(),
+                icon: Icon(
+                  state.isLightMode ? Icons.light_mode : Icons.dark_mode,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -1,4 +1,7 @@
 {
-    "language": "portugues",
-    "appBarTitle": "Anotações"
+    "language": "português",
+    "appTitle": "Anotações",
+    "searchNoteLabel": "Pesquisar anotação",
+    "noNoteFoundLabel": "Nenhuma anotação encontrada",
+    "characterCountLabel": "caracteres"
 }

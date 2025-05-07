@@ -6,12 +6,6 @@ import 'package:provider/provider.dart';
 
 import 'model/states/theme_state.dart';
 
-/// The title of the app
-const String appTitle = 'Notepad';
-
-/// I always let it off for style purposes
-const bool debugShowCheckedModeBanner = false;
-
 /// Entry point
 void main() {
   runApp(
@@ -24,11 +18,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => NoteState()),
       ],
 
-      child: const MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: MyApp(),
-      ),
+      child: const MyApp(),
     ),
   );
 }
@@ -42,8 +32,11 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeState>(
       builder: (context, state, child) {
         return MaterialApp(
-          title: appTitle,
-          debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+          title: AppLocalizations.of(context)?.appTitle ?? 'Notepad',
+          debugShowCheckedModeBanner: false,
+
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
 
           /// sets the theme mode based on the current ThemeState
           themeMode: state.themeMode,

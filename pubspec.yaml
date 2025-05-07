@@ -42,6 +42,7 @@ dependencies:
   path: ^1.9.1
   flutter_localizations:
     sdk: flutter
+  build_runner: ^2.4.15
 
 dev_dependencies:
   flutter_test:

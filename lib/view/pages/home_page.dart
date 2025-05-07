@@ -3,6 +3,7 @@ import 'package:notepad/model/note.dart';
 import 'package:notepad/view/pages/note_page.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../model/states/note_state.dart';
 import '../../model/states/theme_state.dart';
 import '../components/my_app_bar.dart';
@@ -69,7 +70,7 @@ class HomePage extends StatelessWidget {
                               )
                               : null,
 
-                      label: Text('Pesquisar anotação'),
+                      label: Text(AppLocalizations.of(context)!.searchNoteLabel),
                     ),
                   ),
 
@@ -80,7 +81,7 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child:
                         noteState.filteredNotes.isEmpty
-                            ? Center(child: Text('Nenhuma nota encontrada'))
+                            ? Center(child: Text(AppLocalizations.of(context)!.noNoteFoundLabel))
                             : ListView.builder(
                               itemCount: noteState.filteredNotes.length,
                               itemBuilder: (context, index) {

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../model/note.dart';
 import '../../model/states/theme_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Declares how many lines the user can write on
 const int maxLines = 100;
@@ -123,7 +124,7 @@ class _NotePageState extends State<NotePage> {
                             Text('${getLastEditTime()} | '),
 
                             Text(
-                              '$_numCharacters caracteres',
+                              '$_numCharacters ${AppLocalizations.of(context)!.characterCountLabel}',
                               style: TextStyle(fontSize: 12),
                             ),
                           ],
