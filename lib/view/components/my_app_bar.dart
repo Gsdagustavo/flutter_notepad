@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../model/states/theme_state.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../model/states/theme_state.dart';
 
 /// This is a custom app bar that will be used on the entire application
 ///
@@ -15,7 +14,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeState>(
       builder: (context, state, child) {
-
         return AppBar(
           /// sets the app bar's title based on the user's system language
           title: Text(AppLocalizations.of(context)!.appTitle),

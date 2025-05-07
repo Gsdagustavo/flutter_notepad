@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notepad/model/states/note_state.dart';
 import 'package:notepad/view/components/my_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/note.dart';
 import '../../model/states/theme_state.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Declares how many lines the user can write on
 const int maxLines = 100;

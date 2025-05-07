@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notepad/model/note.dart';
 import 'package:notepad/view/pages/note_page.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../model/states/note_state.dart';
 import '../../model/states/theme_state.dart';
 import '../components/my_app_bar.dart';
@@ -24,10 +24,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer2<NoteState, ThemeState>(
       builder: (context, noteState, themeState, _) {
-
         /// this gesture detector and the implementation of the [onTap] function
         /// is needed to unfocus when the user taps somewhere of the screen
         /// and dismiss the keyboard when searching for a note
@@ -70,7 +68,9 @@ class HomePage extends StatelessWidget {
                               )
                               : null,
 
-                      label: Text(AppLocalizations.of(context)!.searchNoteLabel),
+                      label: Text(
+                        AppLocalizations.of(context)!.searchNoteLabel,
+                      ),
                     ),
                   ),
 
@@ -81,7 +81,11 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child:
                         noteState.filteredNotes.isEmpty
-                            ? Center(child: Text(AppLocalizations.of(context)!.noNoteFoundLabel))
+                            ? Center(
+                              child: Text(
+                                AppLocalizations.of(context)!.noNoteFoundLabel,
+                              ),
+                            )
                             : ListView.builder(
                               itemCount: noteState.filteredNotes.length,
                               itemBuilder: (context, index) {
