@@ -11,6 +11,7 @@ lightweight and responsive interface, supporting both light and dark themes.
 - 🔍 Search notes by title or content
 - 🧠 Auto-save functionality
 - 💾 Local storage using `shared_preferences` and `sqlite`
+- 🌐 Full translation for both English and Portuguese languages
 - 📱 Responsive design for phones and tablets
 
 ## 🛠️ Getting Started
