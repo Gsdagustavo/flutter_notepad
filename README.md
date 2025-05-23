@@ -1,4 +1,3 @@
-````markdown
 # 📝 Flutter Notepad
 
 A simple and clean Notepad app built using Flutter. This app allows users to create, edit, and delete notes with a
@@ -29,7 +28,6 @@ lightweight and responsive interface, supporting both light and dark themes.
    ```bash
    git clone https://github.com/Gsdagustavo/flutter_notepad
    cd flutter_notepad
-````
 
 2. **Install dependencies:**
 
